@@ -1,0 +1,14 @@
+from sklearn.cluster import KMeans
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import datasets
+
+iris=datasets.load_iris()
+X=iris.data
+X=X[:,2:4]
+
+KM=KMeans(n_clusters=3,init='random',random_state=5)
+KM.fit(X)
+KM.predict(X)
+plt.scatter(X[:,0],X[:,1],c=KM.predict(X))
