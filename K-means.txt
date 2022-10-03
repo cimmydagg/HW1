@@ -12,3 +12,5 @@ KM=KMeans(n_clusters=3,init='random',random_state=5)
 KM.fit(X)
 KM.predict(X)
 plt.scatter(X[:,0],X[:,1],c=KM.predict(X))
+
+
