@@ -1,0 +1,43 @@
+# 匯入畫圖工具
+import matplotlib.pyplot as plt
+# 匯入陣列工具
+import numpy as np
+# 匯入資料集生成器
+from sklearn.datasets import make_blobs
+# 匯入KNN 分類器
+from sklearn.neighbors import KNeighborsClassifier
+# 匯入資料集拆分工具
+from sklearn.model_selection import train_test_split
+
+# 生成樣本數為200，分類數為2的資料集
+data=make_blobs(n_samples=200, n_features=2,centers=2, cluster_std=1.0, random_state=8)
+X,Y=data
+
+# 將生成的資料集進行視覺化
+# plt.scatter(X[:,0], X[:,1],s=80, c=Y,  cmap=plt.cm.spring, edgecolors='k')
+# plt.show()
+
+clf = KNeighborsClassifier()
+clf.fit(X,Y)
+
+# 繪製圖形
+x_min,x_max=X[:,0].min()-1,X[:,0].max()+1
+y_min,y_max=X[:,1].min()-1,X[:,1].max()+1
+xx,yy=np.meshgrid(np.arange(x_min,x_max,.02),np.arange(y_min,y_max,.02))
+z=clf.predict(np.c_[xx.ravel(),yy.ravel()])
+
+z=z.reshape(xx.shape)
+plt.pcolormesh(xx,yy,z,cmap=plt.cm.Pastel1)
+plt.scatter(X[:,0], X[:,1],s=80, c=Y,  cmap=plt.cm.spring, edgecolors='k')
+plt.xlim(xx.min(),xx.max())
+plt.ylim(yy.min(),yy.max())
+plt.title("Classifier:KNN")
+
+# 把待分類的資料點用五星表示出來
+plt.scatter(6.75,4.82,marker='*',c='red',s=200)
+
+# 對待分類的資料點的分類進行判斷
+res = clf.predict([[6.75,4.82]])
+plt.text(6.9,4.5,'Classification flag: '+str(res))
+
+plt.show()
